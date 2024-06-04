@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "gBjW2XCSl9o=",
+  "success": true,
+  "projectFilePath": "/Users/nkp/Desktop/proj/todo/todo-backend/todo-backend.csproj",
+  "expectedPackageFiles": [
+    "/Users/nkp/.nuget/packages/microsoft.dotnet.ilcompiler/8.0.6/microsoft.dotnet.ilcompiler.8.0.6.nupkg.sha512",
+    "/Users/nkp/.nuget/packages/microsoft.net.illink.tasks/8.0.6/microsoft.net.illink.tasks.8.0.6.nupkg.sha512",
+    "/Users/nkp/.nuget/packages/runtime.osx-arm64.microsoft.dotnet.ilcompiler/8.0.6/runtime.osx-arm64.microsoft.dotnet.ilcompiler.8.0.6.nupkg.sha512"
+  ],
+  "logs": []
+}
