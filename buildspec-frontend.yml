@@ -27,7 +27,6 @@ phases:
     commands:
       - echo Pushing the Docker image to ECR...
       - docker push $REPOSITORY_URI:latest
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Build completed successfully
 
 artifacts:
