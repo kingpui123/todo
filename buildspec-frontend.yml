@@ -17,6 +17,8 @@ phases:
       - echo Building the Docker image...
       - cd ./todo-frontend
       - docker build -t $REPOSITORY_URI:latest .
+      - printf '[{"name":"todo-frontend","imageUri":"%s"}]'  $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - cat imagedefinitions.json
 
   build:
     commands:
@@ -33,4 +35,5 @@ phases:
 artifacts:
   files:
     - '**/*'
+    - imagedefinitions.json
   discard-paths: yes
