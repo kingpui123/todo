@@ -4,9 +4,10 @@ FROM node:18-alpine as builder
 WORKDIR /app
 COPY package*.json .
 COPY yarn*.lock .
-RUN apt-get --assume-yes install yarn
+RUN apk add --no-cache yarn
+RUN yarn install
 COPY . .
-RUN apt-get --assume-yes install build
+RUN yarn build
 
 #Stage 2
 FROM nginx:1.19.0
