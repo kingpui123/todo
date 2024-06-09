@@ -21,12 +21,13 @@ phases:
   build:
     commands:
       - echo Tagging the Docker image...
-      - docker tag todo-frontend:latest $REPOSITORY_URI:latest
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION
 
   post_build:
     commands:
       - echo Pushing the Docker image to ECR...
       - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION
       - echo Build completed successfully
 
 artifacts:
