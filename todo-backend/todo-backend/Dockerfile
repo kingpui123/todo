@@ -29,4 +29,4 @@ EXPOSE 80
 EXPOSE 443
 
 # Define the entry point for the container
-ENTRYPOINT ["dotnet", "todo-app.dll"]
+ENTRYPOINT ["dotnet", "todo-backend.dll"]

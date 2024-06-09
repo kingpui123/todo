@@ -1,0 +1,36 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 16
+    commands:
+      - echo Installing source NPM dependencies...
+      - npm install
+
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - REPOSITORY_URI=194008977517.dkr.ecr.ap-southeast-1.amazonaws.com/todo-frontend
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - $(aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin <your-ecr-registry>)
+      - echo Building the Docker image...
+      - docker build -t react-app .
+
+  build:
+    commands:
+      - echo Tagging the Docker image...
+      - docker tag todo-frontend:latest $REPOSITORY_URI:latest
+
+  post_build:
+    commands:
+      - echo Pushing the Docker image to ECR...
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo Build completed successfully
+
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: yes
