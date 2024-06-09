@@ -1,0 +1,39 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      dotnet: 8.0
+      docker: 20
+    commands:
+      - echo Installing dependencies...
+      - dotnet --version
+      - docker --version
+
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - REPOSITORY_URI=194008977517.dkr.ecr.ap-southeast-1.amazonaws.com/todo-repo
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - $(aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com)
+      - echo Building the .NET application...
+      - dotnet restore
+
+  build:
+    commands:
+      - echo Building the Docker image...
+      - cd ./todo-backend/todo-backend
+      - dotnet publish -c Release -o out
+      - docker build -t $REPOSITORY_URI:latest .
+  
+  post_build:
+    commands:
+      - echo Tagging the Docker image...
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION
+      - echo Pushing the Docker image...
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION
+artifacts:
+  files: '**/*'
+  discard-paths: yes

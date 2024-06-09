@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "todo-backend", "todo-backend", "{35E963BB-C558-4830-A9D6-D0D5C9949281}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "todo-backend", "todo-backend\todo-backend\todo-backend.csproj", "{1AEDC629-3DFD-44F7-B892-E0DD1520588B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1AEDC629-3DFD-44F7-B892-E0DD1520588B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AEDC629-3DFD-44F7-B892-E0DD1520588B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AEDC629-3DFD-44F7-B892-E0DD1520588B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AEDC629-3DFD-44F7-B892-E0DD1520588B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1AEDC629-3DFD-44F7-B892-E0DD1520588B} = {35E963BB-C558-4830-A9D6-D0D5C9949281}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {280F1979-81C1-43B7-BC7E-299E9EEB50D7}
+	EndGlobalSection
+EndGlobal

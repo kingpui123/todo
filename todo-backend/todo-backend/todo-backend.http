@@ -1,11 +1,6 @@
-@todo_backend_HostAddress = http://localhost:5009
+@todo_backend_HostAddress = http://localhost:5166
 
-GET {{todo_backend_HostAddress}}/todos/
-Accept: application/json
-
-###
-
-GET {{todo_backend_HostAddress}}/todos/1
+GET {{todo_backend_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
