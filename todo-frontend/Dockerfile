@@ -1,12 +1,12 @@
 
 #Stage 1
-FROM node:17-alpine as builder
+FROM node:18-alpine as builder
 WORKDIR /app
 COPY package*.json .
 COPY yarn*.lock .
-RUN yarn install
+RUN apt-get --assume-yes install yarn
 COPY . .
-RUN yarn build
+RUN apt-get --assume-yes install build
 
 #Stage 2
 FROM nginx:1.19.0
