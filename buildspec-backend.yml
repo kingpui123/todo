@@ -27,7 +27,7 @@ phases:
       - cd ./todo-backend/todo-backend
       - dotnet publish -c Release -o out
       - docker build -t $REPOSITORY_URI:latest .
-      - printf '[{"name":"todo-api","imageUri":"%s"}]'  $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"todo-cluster","imageUri":"%s"}]'  $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
       - cat imagedefinitions.json
   
   post_build:
