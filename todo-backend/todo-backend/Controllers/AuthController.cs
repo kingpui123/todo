@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 using TodoApi.Models;
@@ -58,6 +59,23 @@ public class AuthController : ControllerBase
         return Ok(new {  
             token
         });
+    }
+
+    [HttpPost] 
+    public async Task<IActionResult> VerifyToken() {
+        var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+        if (_googleAuthHelper.ValidateToken(token, out ClaimsPrincipal principal)) {
+            string userId = principal?.Claims?.FirstOrDefault(x => x.Type == "id")?.Value;
+            User user = await _context.Users.FindAsync(userId);
+            if (user == null) {
+                return Unauthorized("no such user");
+            }
+
+            return Ok(user);
+        } else {
+            return Unauthorized();
+        }
+
     }
 
     [HttpPost]
