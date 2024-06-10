@@ -24,9 +24,9 @@ WORKDIR /app
 COPY --from=build /app/out .
 
 # Expose port 80
-EXPOSE 80
+EXPOSE 5166
 
-EXPOSE 443
+EXPOSE 7031
 
 # Define the entry point for the container
 ENTRYPOINT ["dotnet", "todo-backend.dll"]
