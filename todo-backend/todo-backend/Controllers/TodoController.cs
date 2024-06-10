@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Models;
 using Microsoft.Extensions.Logging;
@@ -11,6 +12,7 @@ namespace todo_backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowSpecificOrigin")]
     public class TodoController : ControllerBase
     {
         private readonly TodoContext _context;
@@ -53,10 +55,9 @@ namespace todo_backend.Controllers
         [HttpPost("search")]
         public async Task<ActionResult<IEnumerable<TodoDto>>> SearchTodos([FromBody]SearchBody body)
         {
-            _logger.LogInformation("{}", body.ToJson());
             var todos = await _todoService.SearchAsync(body.Search, body.Sort, getUserId());
 
-            return Ok(todos);
+            return Ok(todos);   
         }
 
 

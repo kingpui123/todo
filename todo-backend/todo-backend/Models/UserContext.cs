@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Marques.EFCore.SnakeCase;
 
 namespace TodoApi.Models;
 
@@ -11,13 +12,10 @@ public class UserContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
    {
-      modelBuilder.Entity<User>(entity =>
-      {
-        entity.Property(p => p.FamilyName).HasColumnName("family_name");
-        entity.Property(p => p.GivenName).HasColumnName("given_name");
-        entity.Property(p => p.RefreshToken).HasColumnName("refresh_token");
-        entity.Property(p => p.UserName).HasColumnName("user_name");
-      });
+      base.OnModelCreating(modelBuilder);
+
+      modelBuilder.ToSnakeCase();
+
    }
 
     public DbSet<User> Users { get; set; } = null!;

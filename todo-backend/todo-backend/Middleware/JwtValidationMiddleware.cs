@@ -29,14 +29,15 @@ public class JwtValidationMiddleware
             else
             {
                 context.Response.StatusCode = 401; // Unauthorized
-                await context.Response.WriteAsync("Invalid or expired access token.");
+                // context.
+                // await context.Response.WriteAsync("Invalid or expired access token.");
                 return;
             }
         }
         else
         {
             context.Response.StatusCode = 401; // Unauthorized
-            await context.Response.WriteAsync("Authorization header is missing.");
+            // await context.Response.WriteAsync("Authorization header is missing.");
             return;
         }
 

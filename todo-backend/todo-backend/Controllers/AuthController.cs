@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using TodoApi.Models;
 
 [Route("[controller]/[action]")]
 [ApiController]
+[EnableCors("AllowSpecificOrigin")]
 public class AuthController : ControllerBase
 {
     private readonly GoogleAuthHelper _googleAuthHelper;
@@ -57,7 +59,8 @@ public class AuthController : ControllerBase
         string token = _tokenService.GenerateToken(user);
         
         return Ok(new {  
-            token
+            token,
+            user
         });
     }
 

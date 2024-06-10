@@ -52,6 +52,7 @@ public class ResponseMiddleware
             StatusCodes.Status400BadRequest => "Bad Request",
             StatusCodes.Status404NotFound => "Not Found",
             StatusCodes.Status500InternalServerError => "Internal Server Error",
+            StatusCodes.Status401Unauthorized => "Unauthorized",
             _ => "Unknown Status"
         };
     }
