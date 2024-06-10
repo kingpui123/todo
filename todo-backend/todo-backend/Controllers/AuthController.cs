@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 using TodoApi.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 [Route("[controller]/[action]")]
 [ApiController]
@@ -100,7 +101,9 @@ public class AuthController : ControllerBase
         return Ok(new { AccessToken = accessToken, RefreshToken = refreshToken });
     }
 
-
+    public async Task<ActionResult>Pong() {
+        return Ok();
+    }
 }
 
 public class LoginRequest

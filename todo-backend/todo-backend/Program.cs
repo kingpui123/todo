@@ -4,7 +4,9 @@ using TodoApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using NuGet.Common;
 using System.Text;
+using DotNetEnv;
 
+Env.Load();
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -97,6 +99,6 @@ app.Map("/api/todo", appBuilder =>
     });
 });
 
-app.MapControllers();
 
+app.MapControllers();
 app.Run();
