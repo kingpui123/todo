@@ -6,7 +6,7 @@ using NuGet.Common;
 using System.Text;
 using DotNetEnv;
 
-Env.Load(".env");
+Env.Load();
 
 
 var builder = WebApplication.CreateBuilder(args);
