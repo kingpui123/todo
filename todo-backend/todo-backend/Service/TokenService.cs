@@ -17,7 +17,7 @@ public class TokenService
     public string GenerateToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_configuration["Jwt:SecretKey"]);
+        var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("jwt.secret.key"));
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]
@@ -25,8 +25,8 @@ public class TokenService
                 new Claim("id", user.Id)
             }),
             Expires = DateTime.UtcNow.AddDays(7),
-            Issuer = _configuration["Jwt:Issuer"],
-            Audience = _configuration["Jwt:Audience"],
+            Issuer = Environment.GetEnvironmentVariable("jwt.issuer"),
+            Audience = Environment.GetEnvironmentVariable("jwt.audience"),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
 
@@ -38,15 +38,15 @@ public class TokenService
     {
         principal = null;
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]);
+        var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("jwt.secret.key"));
 
         var validationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = _configuration["Jwt:Issuer"],
+            ValidIssuer = Environment.GetEnvironmentVariable("jwt.issuer"),
 
             ValidateAudience = true,
-            ValidAudience = _configuration["Jwt:Audience"],
+            ValidAudience = Environment.GetEnvironmentVariable("jwt.audience"),
 
             ValidateLifetime = true,
 

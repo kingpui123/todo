@@ -162,3 +162,5 @@ BenchmarkDotNet.Artifacts/
 
 appsettings.json
 appsettings.Development.json
+
+.env

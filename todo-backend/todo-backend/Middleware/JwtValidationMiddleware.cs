@@ -48,15 +48,15 @@ public class JwtValidationMiddleware
     {
         principal = null;
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]);
+        var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("jwt.secret.key"));
 
         var validationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = _configuration["Jwt:Issuer"],
+            ValidIssuer = Environment.GetEnvironmentVariable("jwt.issuer"),
 
             ValidateAudience = true,
-            ValidAudience = _configuration["Jwt:Audience"],
+            ValidAudience = Environment.GetEnvironmentVariable("jwt.audience"),
 
             ValidateLifetime = true,
 

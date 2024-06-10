@@ -4,6 +4,9 @@ using TodoApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using NuGet.Common;
 using System.Text;
+using DotNetEnv;
+
+Env.Load(".env");
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = Environment.GetEnvironmentVariable("connection.string") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<TodoContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 builder.Services.AddDbContext<UserContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 

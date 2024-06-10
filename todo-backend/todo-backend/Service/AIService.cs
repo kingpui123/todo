@@ -16,7 +16,7 @@ public class AIService
 
     public async Task<string?> GenerateTodo(string description)
     {
-        string apiKey = _configuration.GetValue<string>("OpenAI:ApiKey") ?? "";
+        string apiKey = Environment.GetEnvironmentVariable("openai.api.key") ?? "";
         var httpClient = _httpClientFactory.CreateClient();
         httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
         string prompt = $"write me with for a todo list item according to \"{description}\" in json format only, with the following fields: name, description, priority, tags, importance. please give priority in integer format, 3 meaning the highest priority and 1 meaning the lowest priority. please give importance in integer format, 3 meaning the most important and 1 meaning the least important";

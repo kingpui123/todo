@@ -21,9 +21,9 @@ public class GoogleAuthHelper
     public async Task<(string AccessToken, string RefreshToken)> GetTokensFromAuthorizationCodeAsync(string authorizationCode)
     {
         var httpClient = _httpClientFactory.CreateClient();
-        string clientId = _configuration.GetSection("Authentication:Google").GetValue<string>("ClientId");
-        string clientSecret = _configuration.GetSection("Authentication:Google").GetValue<string>("ClientSecret");
-        string redirectUri = _configuration.GetSection("Authentication:Google").GetValue<string>("RedirectUri");    
+        string clientId = Environment.GetEnvironmentVariable("google.client.id");
+        string clientSecret = Environment.GetEnvironmentVariable("google.client.secret");
+        string redirectUri = Environment.GetEnvironmentVariable("google.redirect.uri");    
 
         var requestBody = new FormUrlEncodedContent(new[]
         {
@@ -64,15 +64,15 @@ public class GoogleAuthHelper
     {
         principal = null;
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]);
+        var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("jwt.secret.key"));
 
         var validationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = _configuration["Jwt:Issuer"],
+            ValidIssuer = Environment.GetEnvironmentVariable("jwt.issuer"),
 
             ValidateAudience = true,
-            ValidAudience = _configuration["Jwt:Audience"],
+            ValidAudience = Environment.GetEnvironmentVariable("jwt.audience"),
 
             ValidateLifetime = true,
 
