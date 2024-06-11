@@ -101,6 +101,7 @@ public class AuthController : ControllerBase
         return Ok(new { AccessToken = accessToken, RefreshToken = refreshToken });
     }
 
+    [HttpGet]
     public async Task<ActionResult>Pong() {
         return Ok();
     }
