@@ -1,12 +1,18 @@
-import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
-import LoginButton from './component/LoginButton.jsx'
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { UserProvider } from './context/UserContext.jsx';
+import TodoWrapper from './wrapper/TodoWrapper.jsx';
+
 import './App.css';
 
 function App() {
 
+
+
   return (
     <GoogleOAuthProvider clientId="658022931842-cptmdomekm94vvprbeafpedjuspkdfr6.apps.googleusercontent.com">
-     <LoginButton />
+      <UserProvider>
+          <TodoWrapper />
+      </UserProvider>
     </GoogleOAuthProvider>
   );
 }
