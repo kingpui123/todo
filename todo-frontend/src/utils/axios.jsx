@@ -3,7 +3,7 @@ import { LocalStorageTokenKey } from '../const/const.js'
 
 // Create an Axios instance
 const axiosInstance = axios.create({
-  baseURL: 'http://todo-backend-939701679.ap-southeast-1.elb.amazonaws.com',
+  baseURL: 'https://todo-api.ericnkp.com',
   timeout: 10000, // Optional: specify a timeout
   headers: { 'Content-Type': 'application/json' },
 });
