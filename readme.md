@@ -19,7 +19,7 @@ This repository contains the code for a fullstack Todo List application. The bac
 
 - **Backend**: C#.NET
 - **Frontend**: React.js
-- **Database**: [Specify the database used, e.g., SQL Server, MySQL, etc.]
+- **Database**:  MySQL
 
 ## Prerequisites
 
