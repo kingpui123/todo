@@ -41,11 +41,11 @@ export default (props) => {
             }
 
             <div className="flex flex-nowrap mb-2">
-                <div className="mr-2 min-w-24">
+                <div className="mr-2 min-w-24 text-nowrap">
                     <Schedule fontSize="lg" className="mr-1" /><span className="inline-block align-middle">{getFormattedTime(todo.dueTime)}</span>
                 </div>
 
-                <div className="min-w-24">
+                <div className="min-w-24 text-nowrap">
                     <Cached fontSize="lg" className="mr-1" /><span className="inline-block align-middle">{getFormattedStatus(todo.status)}</span>
                 </div>
             </div>

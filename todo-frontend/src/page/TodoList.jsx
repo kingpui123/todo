@@ -1,13 +1,12 @@
 import axios from '../utils/axios';
 import React, { useContext, useEffect, useReducer, useState } from "react";
 import AddIcon from '@mui/icons-material/Add'
-import CheckCircleOutline from '@mui/icons-material/CheckCircleOutline'
-import ErrorOutline from '@mui/icons-material/ErrorOutline'
-import { Snackbar, Button } from '@mui/joy';
+import MenuIcon from '@mui/icons-material/Menu'
+import { message, Layout, Menu } from 'antd';
 
-import { UserContext } from "../context/UserContext";
 import TodoTab from '../component/TodoTab'
 import TodoForm from '../component/TodoForm'
+import TodoSideBar from '../component/TodoSideBar';
 
 const searchTodosService = async ({ search, sort }) => {
     try {
@@ -53,14 +52,11 @@ const createTodoService = async (body) => {
 
         return res.data.data
     } catch (error) {
-        console.log(error)
-        // show error notification
         throw error
     }
 }
 
 export default (props) => {
-    const { setUser } = useContext(UserContext)
     const [todos, setTodos] = useState([])
     const [searchParams, setSearchParams] = useState({
         status: ["not-started", "in-progress"]
@@ -69,11 +65,9 @@ export default (props) => {
     const [sortOrder, setSortOrder] = useState(-1)
     const [formAction, setFormAction] = useState("")
     const [showForm, setShowForm] = useState(false)
-    const [showSuccessMessage, setShowSuccessMessage] = useState(false)
-    const [showErrorMessage, setShowErrorMessage] = useState(false)
+    const [showSideBar, setShowSideBar] = useState(false)
 
     const [todoOnFocus, setTodoOnFocus] = useState({})
-    
 
 
     const updateSearchParams = (newParams = {}) => {
@@ -91,12 +85,13 @@ export default (props) => {
             let todos = await searchTodosService({ search: searchParams, sort: { sort_by: sortKey, sort_order: sortOrder } })
             if (Array.isArray(todos)) {
                 setTodos(todos)
+                setShowSideBar(false)
             } else {
                 throw new Error("Invalid response from server")
             }
         } catch (error) {
             console.log(error)
-            setShowErrorMessage(true)
+            message.error("Please try again later!")
         }
     }
 
@@ -104,11 +99,11 @@ export default (props) => {
         try {
             let result = await updateTodoService(id, body)
             setShowForm(false)
-            setShowSuccessMessage(true)
+            message.success("Success")
             return searchTodos()
         } catch (error) {
             console.log(error)
-            setShowErrorMessage(true)
+            message.error("Please try again later!")
         }
     }
 
@@ -116,11 +111,11 @@ export default (props) => {
         try {
             let result = await createTodoService(body)
             setShowForm(false)
-            setShowSuccessMessage(true)
+            message.success("Success")
             return searchTodos()
         } catch (error) {
             console.log(error)
-            setShowErrorMessage(true)
+            message.error("Please try again later!")
         }
     }
 
@@ -168,9 +163,18 @@ export default (props) => {
 
     }, [showForm])
 
+    useEffect(() => {
+        searchTodos()
+    }, [JSON.stringify(searchParams)])
+
     return (
+        <div>
+        <TodoSideBar
+            showSideBar={showSideBar}
+            onClose={() => setShowSideBar(false)}
+            onChangeFilter={(object) => setSearchParams(object)}
+        />
         <div className="">
-            <div class="sticky top-0 drop-shadow-md"></div>
             <div>
                 {
                     todos.map((todo) => {
@@ -179,12 +183,22 @@ export default (props) => {
                         )
                     })
                 }
+                {
+                    todos.length == 0 && (
+                        <div className="text-center text-xl font-semibold text-gray-600 pt-8">
+                            No todos found
+                        </div>
+                    )
+                }
             </div>
 
             <div className="fixed bottom-4 right-4">
                 <div className='flex justify-center'>
-                    <button onClick={() => onCreateNewTodo()} className="rounded-xl bg-white px-4 py-2 shadow-lg">
-                        <AddIcon fontSize='large' /><span className='inline-block ml-2 font-semibold text-xl align-middle'>Add new</span>
+                <button onClick={() => setShowSideBar(!showSideBar)} className="mr-4 rounded-full bg-white px-4 py-2 shadow-xl hover:bg-slate-100 transition-all">
+                        <MenuIcon fontSize='large' />
+                    </button>
+                    <button onClick={() => onCreateNewTodo()} className="rounded-full bg-white px-4 py-2  hover:bg-slate-100 transition-all shadow-xl">
+                        <AddIcon fontSize='large' />
                     </button>
                 </div>
             </div>
@@ -196,49 +210,7 @@ export default (props) => {
                 onSubmit={onSubmitAction}
                 onClose={() => setShowForm(false)}
             />
-
-            <Snackbar
-                variant="soft"
-                color="success"
-                open={showSuccessMessage}
-                autoHideDuration={2500}
-                onClose={() => setShowSuccessMessage(false)}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                startDecorator={<CheckCircleOutline />}
-                endDecorator={
-                    <Button
-                        onClick={() => setShowSuccessMessage(false)}
-                        size="sm"
-                        variant="soft"
-                        color="success"
-                    >
-                        Dismiss
-                    </Button>
-                }
-            >
-                Success!
-            </Snackbar>
-            <Snackbar
-                variant="soft"
-                color="danger"
-                open={showErrorMessage}
-                autoHideDuration={2500}
-                onClose={() => setShowErrorMessage(false)}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                startDecorator={<ErrorOutline />}
-                endDecorator={
-                    <Button
-                        onClick={() => setShowErrorMessage(false)}
-                        size="sm"
-                        variant="soft"
-                        color="danger"
-                    >
-                        Dismiss
-                    </Button>
-                }
-            >
-                Please try again later!
-            </Snackbar>
+        </div>
         </div>
     );
 }
