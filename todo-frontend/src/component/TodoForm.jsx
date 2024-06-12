@@ -10,14 +10,11 @@ import { AllStatus, AllImportance, AllPriority } from "../const/const";
 import Priority from "./Tab/Priority";
 import Importance from "./Tab/Importance";
 import axios from '../utils/axios'
+import { Select as AntdSelect, DatePicker } from 'antd'
+import dayjs from 'dayjs'
+import utc from "dayjs/plugin/utc"
 
-const Tag = (props) => {
-    return (
-        <div className={`inline-block m-1 rounded-xl p-2 text-xs font-bold ${props.className}`}>
-        {props.tag}
-        </div>
-    )
-}
+dayjs.extend(utc)
 
 const aiGenerateTodo = async (description) => {
     try {
@@ -36,8 +33,7 @@ const aiGenerateTodo = async (description) => {
 export default (props) => {
     let { showForm, todoOnFocus, formAction, onSubmit, onClose, } = props
     const [todo, setTodo] = useState(todoOnFocus)
-    const [newTag, setNewTag] = useState("")
-    const [openAIModal, setOpenAIModal] =  useState(false)
+    const [openAIModal, setOpenAIModal] = useState(false)
 
 
     useEffect(() => {
@@ -63,11 +59,9 @@ export default (props) => {
                 setTodo(t)
             }
         } catch (error) {
-            
+
         }
     }
-
-
 
     return (
         <Drawer
@@ -165,28 +159,31 @@ export default (props) => {
                                 </div>
                                 <div className="mb-3">
                                     <FormLabel>Due Time</FormLabel>
-                                    <TextField
-                                        type="datetime-local"
-                                        className="w-full"
-                                        value={(todo || {}).dueTime || ''}
-                                        onChange={(e) => { updateTodoOnFocus('dueTime', `${e.target.value}:00`); }}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
+                                    <DatePicker
+                                        showTime
+                                        getPopupContainer={(triggerNode) => {
+                                            return triggerNode.parentNode;
+                                          }}
+                                        zIndexPopup={9999}
+                                        value={dayjs.utc(todo.dueTime).local()}
+                                        format={"YYYY-MM-DD HH:mm"}
+                                        onChange={(_, dateString) => updateTodoOnFocus("dueTime", dateString)}
                                     />
+
                                 </div>
                                 <div className="mb-3">
                                     <FormLabel>Tags</FormLabel>
-                                    <div className="border rounded p-3 flex flex-wrap">
-                                        {
-                                            (todo.tags || []).map((t, i) => {
-                                                return (
-                                                    <Tag tag={`# ${t}`} key={i} className={"text-black bg-white border border-slate-300"} onDelete={() => updateTodoOnFocus("tags", (todo.tags || []).filter((_, idx) => i != idx))} />
-                                                )
-                                            })
-                                        }
-                                        
-                                    </div>
+                                    <AntdSelect
+                                        mode="tags"
+                                        style={{
+                                            width: '100%',
+                                        }}
+                                        value={todo.tags}
+                                        placeholder=""
+                                        onChange={(v) => updateTodoOnFocus('tags', v)}
+                                        options={(todo.tags || []).map(t => ({ label: t, value: t }))}
+                                        dropdownStyle={{ zIndex: 9999 }}
+                                    />
                                 </div>
                             </div>
                         )
@@ -206,24 +203,24 @@ export default (props) => {
 
             </Box>
             <Modal open={openAIModal} onClose={() => setOpenAIModal(false)}>
-        <ModalDialog>
-          <DialogTitle>Create your todo with AI</DialogTitle>
-          <DialogContent>Fill in the description of what you are planning to do.</DialogContent>
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-                return getGeneratedTodo(event.target[0].value)
-            }}
-          >
-            <Stack spacing={2}>
-              <FormControl>
-                <Input  />
-              </FormControl>
-              <Button type="submit">Generate</Button>
-            </Stack>
-          </form>
-        </ModalDialog>
-      </Modal>
+                <ModalDialog>
+                    <DialogTitle>Create your todo with AI</DialogTitle>
+                    <DialogContent>Fill in the description of what you are planning to do.</DialogContent>
+                    <form
+                        onSubmit={(event) => {
+                            event.preventDefault();
+                            return getGeneratedTodo(event.target[0].value)
+                        }}
+                    >
+                        <Stack spacing={2}>
+                            <FormControl>
+                                <Input />
+                            </FormControl>
+                            <Button type="submit">Generate</Button>
+                        </Stack>
+                    </form>
+                </ModalDialog>
+            </Modal>
         </Drawer>
     )
 }

@@ -1,5 +1,6 @@
 import React from "react";
-import moment from 'moment';
+import dayjs from 'dayjs';
+import utc from "dayjs/plugin/utc";
 import Schedule from '@mui/icons-material/Schedule';
 import Cached from '@mui/icons-material/Cached';
 import EditNote from '@mui/icons-material/EditNote';
@@ -8,12 +9,14 @@ import Importance from "./Tab/Importance";
 import CommonTab from "./Tab/CommonTab";
 import { AllStatus } from '../const/const'
 
+dayjs.extend(utc)
+
 const getFormattedTime = (timeString) => {
-    let momentDate = moment.utc(timeString)
-    if (!momentDate.isValid() || momentDate.valueOf() <= 0){
+    let dayjsDate = dayjs.utc(timeString)
+    if (!dayjsDate.isValid() || dayjsDate.valueOf() <= 0){
         return '-'
     }
-    return moment(new Date(momentDate)).format("YYYY-MM-DD HH:mm")
+    return dayjsDate.local().format("YYYY-MM-DD HH:mm")
 }
 
 const getFormattedStatus = (status) => {
