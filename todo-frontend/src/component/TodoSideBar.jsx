@@ -25,11 +25,11 @@ export default (props) => {
                 </div>
                 <ul className="space-y-2 font-medium">
                     <ListItem icon={<ListAlt />} text={"All"} onClick={() => props.onChangeFilter({ search: {} })}/>
-                    <ListItem icon={<CheckCircle />} text={"Completed"} onClick={() => props.onChangeFilter({ search: { progress: "finished"} })}/>
+                    <ListItem icon={<CheckCircle />} text={"Completed"} onClick={() => props.onChangeFilter({ search: { progress: ["finished"]} })}/>
                     <ListItem icon={<Today />} text={"Today"} onClick={() => props.onChangeFilter({ search: { startTime: dayjs().startOf("day"), endTime: dayjs().endOf("day") } })} />
-                    <ListItem icon={<PriorityHigh />} text={"Critical"} onClick={() => props.onChangeFilter({ search: { priority: 3} })}/>
-                    <ListItem icon={<PendingActions />} text={"Prioritized"} onClick={() => props.onChangeFilter({ search: { progress: 2} })}/>
-                    <ListItem icon={<LowPriority />} text={"Optional"} onClick={() => props.onChangeFilter({ search: { progress: 1} })}/>
+                    <ListItem icon={<PriorityHigh />} text={"Critical"} onClick={() => props.onChangeFilter({ search: { priority: [3]} })}/>
+                    <ListItem icon={<PendingActions />} text={"Prioritized"} onClick={() => props.onChangeFilter({ search: { priority: [2]} })}/>
+                    <ListItem icon={<LowPriority />} text={"Optional"} onClick={() => props.onChangeFilter({ search: { priority: [1]} })}/>
                 </ul>
             </div>
         </div>
