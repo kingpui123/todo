@@ -96,6 +96,12 @@ This repository contains the code for a fullstack Todo List application. The bac
     - **Filter by common conditions**: One-click to filter by common conditions, like due today and priority
     - **Generate a task with AI**: Input a description of the task and AI will generate a new one in our data format
 
+### Authorization
+This application use Google login (OAuth 2.0) to get the user information like email and name. 
+
+### Authentication
+This application use JWT to authenticate the request is from the correct user.
+
 ### Hosting
 
 - **Frontend**: The frontend application is hosted and built with [AWS Amplify](https://aws.amazon.com/amplify/)
