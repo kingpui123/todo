@@ -12,7 +12,7 @@ const searchTodosService = async ({ search, sort }) => {
     try {
         let res = await axios.post('/api/todo/search', {
             sort,
-            search
+            search: { ...search }
         })
 
         return res.data.data
